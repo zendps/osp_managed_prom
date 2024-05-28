@@ -1,7 +1,7 @@
 # OSP Workshop
 
-This module provides automation to set up a basic reference architecture for
-Open Source Puppet Server, PuppetDB, and Foreman.
+This module provides the plumbing and automation to set up a basic reference
+architecture for Open Source Puppet Server, PuppetDB, and Foreman.
 
 ![Workshop Architecture](.architecture.png)
 
@@ -12,7 +12,7 @@ Open Source Puppet Server, PuppetDB, and Foreman.
     * [What osp_workshop affects](#what-osp_workshop-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with osp_workshop](#beginning-with-osp_workshop)
-1. [Usage - Configuration options and additional functionality](#usage)
+1. [Usage - Step by step instructions](#usage)
 1. [Cleanup](#cleanup)
 <!-- 1. [Limitations - OS compatibility, etc.](#limitations) -->
 <!-- 1. [Development - Guide for contributing to the module](#development) -->
@@ -97,9 +97,14 @@ it how to connect.
     ```
     /opt/puppetlabs/bin/puppet agent --test --server osp
     ```
-4. Log in to https://foreman/ (default username and password: "admin"). Under
-   **Administer->Settings->Authentication**, add `osp` to **Trusted hosts**.
-5. Run Puppet on the `osp` node. This will reconfigure Puppet Server to use
+4. Run Puppet on the `foreman` node again. This run will notice Foreman is
+   installed and set up the Puppet plugin.
+    ```
+    /opt/puppetlabs/bin/puppet agent --test
+    ```
+5. Log in to https://foreman/ (default username and password: "admin"). Under
+   **Administer→Settings→Authentication**, add `osp` to **Trusted hosts**.
+6. Run Puppet on the `osp` node. This will reconfigure Puppet Server to use
    Foreman as an ENC and report to it in addition to PuppetDB.
     ```
     /opt/puppetlabs/bin/puppet agent --test
