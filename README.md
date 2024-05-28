@@ -3,6 +3,8 @@
 This module provides automation to set up a basic reference architecture for
 Open Source Puppet Server, PuppetDB, and Foreman.
 
+![Workshop Architecture](.architecture.png)
+
 ## Table of Contents
 
 1. [Description](#description)
