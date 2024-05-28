@@ -1,0 +1,19 @@
+# This file can be used to customize the files managed by PDK.
+#
+# See https://github.com/puppetlabs/pdk-templates/blob/main/README.md
+# for more information.
+#
+# See https://github.com/puppetlabs/pdk-templates/blob/main/config_defaults.yml
+# for the default values.
+---
+.gitignore:
+  paths:
+    - '!/Puppetfile'
+    - '!/inventory.yaml'
+    - '/bolt-debug.log'
+    - '/.modules'
+    - '/.plan_cache.json'
+    - '/.rerun.json'
+    - '/.resource_types'
+    - '/.task_cache.json'
+    - '/vagrant-ssh.conf'

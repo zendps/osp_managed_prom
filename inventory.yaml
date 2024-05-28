@@ -1,0 +1,23 @@
+---
+config:
+  ssh:
+    native-ssh: true
+    ssh-command: ['ssh', '-F', 'vagrant-ssh.conf']
+    copy-command: ['scp', '-r', '-F', 'vagrant-ssh.conf']
+
+features:
+  - puppet-agent
+
+targets:
+  - uri: foreman
+    config:
+      transport: ssh
+      ssh:
+        user: vagrant
+        run-as: root
+  - uri: osp
+    config:
+      transport: ssh
+      ssh:
+        user: vagrant
+        run-as: root

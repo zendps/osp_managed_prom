@@ -1,0 +1,3 @@
+# For compatibility with bolt apply
+puppetdb::master::config::puppet_confdir: '/etc/puppetlabs/puppet'
+puppetdb::master::config::strict_validation: false

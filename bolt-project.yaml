@@ -1,0 +1,13 @@
+---
+name: osp_workshop
+
+modules:
+  - puppet-r10k
+  - puppetlabs-augeas_core
+  - puppetlabs-cron_core
+  - puppetlabs-host_core
+  - puppetlabs-puppetdb
+  - theforeman-puppet
+
+plans:
+  - osp_workshop::bootstrap
