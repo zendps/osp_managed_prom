@@ -13,6 +13,7 @@ Open Source Puppet Server, PuppetDB, and Foreman.
     * [Setup requirements](#setup-requirements)
     * [Beginning with osp_workshop](#beginning-with-osp_workshop)
 1. [Usage - Configuration options and additional functionality](#usage)
+1. [Cleanup](#cleanup)
 <!-- 1. [Limitations - OS compatibility, etc.](#limitations) -->
 <!-- 1. [Development - Guide for contributing to the module](#development) -->
 
@@ -103,6 +104,20 @@ it how to connect.
     ```
     /opt/puppetlabs/bin/puppet agent --test
     ```
+
+## Cleanup
+
+Stop your Vagrant instances with:
+
+```
+vagrant halt
+```
+
+and remove them completely with:
+
+```
+vagrant destroy
+```
 
 <!--
 ## Limitations
