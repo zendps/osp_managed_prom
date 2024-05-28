@@ -17,7 +17,7 @@ plan osp_workshop::bootstrap {
       agent_server_hostname => $trusted['certname'],
       autosign              => true,
       environment           => 'production',
-      puppet_runmode        => 'none',
+      runmode               => 'none',
       server                => true,
       server_external_nodes => '',
       server_foreman        => false,
