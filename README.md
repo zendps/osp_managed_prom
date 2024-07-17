@@ -1,17 +1,17 @@
-# OSP Workshop
+# OSP Managed Prometheus
 
 This module provides the plumbing and automation to set up a basic reference
-architecture for Open Source Puppet Server, PuppetDB, and Foreman.
+architecture for Open Source Puppet Server, PuppetDB, and Prometheus.
 
 ![Workshop Architecture](.architecture.png)
 
 ## Table of Contents
 
 1. [Description](#description)
-1. [Setup - The basics of getting started with osp_workshop](#setup)
-    * [What osp_workshop affects](#what-osp_workshop-affects)
+1. [Setup - The basics of getting started with osp_managed_prom](#setup)
+    * [What osp_managed_prom affects](#what-osp_managed_prom-affects)
     * [Setup requirements](#setup-requirements)
-    * [Beginning with osp_workshop](#beginning-with-osp_workshop)
+    * [Beginning with osp_managed_prom](#beginning-with-osp_managed_prom)
 1. [Usage - Step by step instructions](#usage)
 1. [Cleanup](#cleanup)
 <!-- 1. [Limitations - OS compatibility, etc.](#limitations) -->
@@ -26,12 +26,12 @@ PuppetDB on the `osp` node using
 module, configure `/etc/hosts` to ease communication between the nodes, and set
 up agents. Then, it configures [r10k](https://github.com/puppetlabs/r10k) to
 deploy a [special control
-repo](https://github.com/jameslikeslinux/osp-workshop-control-repo) containing
+repo](https://github.com/jameslikeslinux/osp-managed-prom-control-repo.git) containing
 roles and profiles to complete the Foreman installation and integration.
 
 ## Setup
 
-### What osp_workshop affects
+### What osp_managed_prom affects
 
 This module is primarily a [Bolt
 project](https://www.puppet.com/docs/bolt/latest/bolt.html) that targets the
@@ -45,7 +45,7 @@ installation. The `Vagrantfile` provided in this repo expects the libvirt
 backend. You may need to modify it to work with other backends, such as
 VirtualBox.
 
-### Beginning with osp_workshop
+### Beginning with osp_managed_prom
 
 Start by bringing up the two Vagrant instances.
 
@@ -90,7 +90,7 @@ it how to connect.
     ```
 2. Bootstrap the Puppet instance:
     ```
-    bolt plan run osp_workshop::bootstrap
+    bolt plan run osp_managed_prom::bootstrap
     ```
 3. Run Puppet on the `foreman` node. This will complete the agent SSL bootstrap
    and install Foreman based on the contents of the control repo.

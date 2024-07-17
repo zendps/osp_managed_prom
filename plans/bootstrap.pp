@@ -1,4 +1,4 @@
-plan osp_workshop::bootstrap {
+plan osp_managed_prom::bootstrap {
   $nodes = get_targets('all')
 
   apply_prep($nodes)
@@ -35,7 +35,7 @@ plan osp_workshop::bootstrap {
       cachedir => '/var/r10k',
       sources  => {
         'control-repo' => {
-          'remote'  => 'https://github.com/jameslikeslinux/osp-workshop-control-repo.git',
+          'remote'  => 'https://github.com/jameslikeslinux/osp-managed-prom-control-repo.git',
           'basedir' => '/etc/puppetlabs/code/environments',
         },
       },
@@ -43,7 +43,4 @@ plan osp_workshop::bootstrap {
   }
 
   run_task('r10k::deploy', 'osp')
-
-  # Run manually for demonstration
-  #run_command('/opt/puppetlabs/bin/puppet agent --test --server osp || [ $? -eq 2 ]', 'foreman')
 }

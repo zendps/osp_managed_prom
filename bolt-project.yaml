@@ -1,5 +1,5 @@
 ---
-name: osp_workshop
+name: osp_managed_prom
 
 modules:
   - puppet-r10k
@@ -10,4 +10,4 @@ modules:
   - theforeman-puppet
 
 plans:
-  - osp_workshop::bootstrap
+  - osp_managed_prom::bootstrap

@@ -13,8 +13,8 @@ Vagrant.configure('2') do |config|
     sudo apt-get install puppet-agent
   SHELL
 
-  config.vm.define :foreman do |node|
-    node.vm.hostname = 'foreman'
+  config.vm.define :osp do |node|
+    node.vm.hostname = 'osp'
     node.vm.provider :libvirt do |domain|
       domain.cpus = 2
       domain.machine_virtual_size = 50
@@ -22,8 +22,8 @@ Vagrant.configure('2') do |config|
     end
   end
 
-  config.vm.define :osp do |node|
-    node.vm.hostname = 'osp'
+  config.vm.define :prometheus do |node|
+    node.vm.hostname = 'prometheus'
     node.vm.provider :libvirt do |domain|
       domain.cpus = 2
       domain.machine_virtual_size = 50

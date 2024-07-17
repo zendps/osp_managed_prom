@@ -9,13 +9,13 @@ features:
   - puppet-agent
 
 targets:
-  - uri: foreman
+  - uri: osp
     config:
       transport: ssh
       ssh:
         user: vagrant
         run-as: root
-  - uri: osp
+  - uri: prometheus
     config:
       transport: ssh
       ssh:
