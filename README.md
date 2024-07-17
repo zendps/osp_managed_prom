@@ -20,14 +20,14 @@ architecture for Open Source Puppet Server, PuppetDB, and Prometheus.
 ## Description
 
 Using Vagrant and Bolt, bootstrap a monolithic Puppet instance with two nodes:
-`osp` and `foreman`. This module will install and configure Puppet Server and
+`osp` and `prometheus`. This module will install and configure Puppet Server and
 PuppetDB on the `osp` node using
 [`theforeman-puppet`](https://forge.puppet.com/modules/theforeman/puppet/readme)
 module, configure `/etc/hosts` to ease communication between the nodes, and set
 up agents. Then, it configures [r10k](https://github.com/puppetlabs/r10k) to
 deploy a [special control
 repo](https://github.com/jameslikeslinux/osp-managed-prom-control-repo.git) containing
-roles and profiles to complete the Foreman installation and integration.
+roles and profiles to complete the Prometheus installation and configuration.
 
 ## Setup
 
@@ -58,19 +58,10 @@ instance with:
 
 ```
 vagrant ssh osp
-vagrant ssh foreman
+vagrant ssh prometheus
 ```
 
 and switch to root with `sudo -s`.
-
-For convenience later on, grab the IP address of the `foreman` node with `ip
-addr` and add an entry to your host's `/etc/hosts` file (or equivalent) like:
-
-```
-192.168.121.89	foreman
-```
-
-Remember, your IP address will be different!
 
 Finally, prepare to allow Bolt to connect to these nodes by running:
 
@@ -92,20 +83,14 @@ it how to connect.
     ```
     bolt plan run osp_managed_prom::bootstrap
     ```
-3. Run Puppet on the `foreman` node. This will complete the agent SSL bootstrap
-   and install Foreman based on the contents of the control repo.
+3. Run Puppet on the `prometheus` node. This will complete the agent SSL bootstrap
+   and install Prometheus based on the contents of the control repo.
     ```
     /opt/puppetlabs/bin/puppet agent --test --server osp
     ```
-4. Run Puppet on the `foreman` node again. This run will notice Foreman is
-   installed and set up the Puppet plugin.
-    ```
-    /opt/puppetlabs/bin/puppet agent --test
-    ```
-5. Log in to https://foreman/ (default username and password: "admin"). Under
-   **Administer→Settings→Authentication**, add `osp` to **Trusted hosts**.
-6. Run Puppet on the `osp` node. This will reconfigure Puppet Server to use
-   Foreman as an ENC and report to it in addition to PuppetDB.
+4. Run Puppet on the `osp` node. This will ensure the Puppet Server
+   configuration has converged to the desired state expressed in the control
+   repo.
     ```
     /opt/puppetlabs/bin/puppet agent --test
     ```
