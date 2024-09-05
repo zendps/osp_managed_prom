@@ -6,16 +6,17 @@ plan osp_managed_prom::bootstrap {
   apply($nodes) {
     $nodes.each |$node| {
       $node_facts = facts($node)
-      host { $node_facts['networking']['hostname']:
+      host { $node.name:
         ip => $node_facts['networking']['ip'],
       }
     }
   }
 
-  apply('osp') {
+  $apply_results = apply('osp') {
     class { 'puppet':
-      agent_server_hostname => $trusted['certname'],
+      agent_server_hostname => 'osp',
       autosign              => true,
+      dns_alt_names         => ['osp'],
       environment           => 'production',
       runmode               => 'none',
       server                => true,
@@ -39,6 +40,12 @@ plan osp_managed_prom::bootstrap {
           'basedir' => '/etc/puppetlabs/code/environments',
         },
       },
+    }
+  }
+
+  $apply_results.each |$result| {
+    $result.report['logs'].each |$log| {
+      out::message("${result.target.name}: ${log['level'].capitalize}: ${log['source']}: ${log['message']}")
     }
   }
 

@@ -14,7 +14,7 @@ Vagrant.configure('2') do |config|
   SHELL
 
   config.vm.define :osp do |node|
-    node.vm.hostname = 'osp'
+    node.vm.hostname = 'vagrant-osp' # do not assume hostname
     node.vm.provider :libvirt do |domain|
       domain.cpus = 2
       domain.machine_virtual_size = 50
@@ -23,7 +23,7 @@ Vagrant.configure('2') do |config|
   end
 
   config.vm.define :prometheus do |node|
-    node.vm.hostname = 'prometheus'
+    node.vm.hostname = 'vagrant-prometheus' # do not assume hostname
     node.vm.provider :libvirt do |domain|
       domain.cpus = 2
       domain.machine_virtual_size = 50
