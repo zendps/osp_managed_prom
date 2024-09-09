@@ -47,6 +47,12 @@ VirtualBox.
 
 ### Beginning with osp_managed_prom
 
+This module assumes two hosts named "osp" for the Puppet Server and
+"prometheus" for the Prometheus server and establishes aliases as such, so you
+can call them whatever you want.
+
+#### Vagrant
+
 Start by bringing up the two Vagrant instances.
 
 ```
@@ -70,8 +76,17 @@ vagrant ssh-config > vagrant-ssh.conf
 ```
 
 You may need to fixup the resulting config file depending on how you invoke
-Bolt. Bolt's `inventory.yaml` is configured to use `vagrant-ssh.conf` to tell
+Bolt. Bolt's `inventory-vagrant.yaml` is configured to use `vagrant-ssh.conf` to tell
 it how to connect.
+
+#### AWS
+
+Launch two Puppet-compatible instances and install Puppet Agent. Modify
+`inventory-aws.yaml` to reflect actual IP addresses and usernames, but keep the
+names "osp" and "prometheus". We use `/etc/hosts` and the Puppet `certname` to
+effectively pin these names as aliases so that the customer's hostnames are
+irrelevant and our code will work across different environments. Then continue
+with the steps below.
 
 ## Usage
 
@@ -79,14 +94,14 @@ it how to connect.
     ```
     bolt module install
     ```
-2. Bootstrap the Puppet instance:
+2. Bootstrap the Puppet instance with the appropriate inventory config:
     ```
-    bolt plan run osp_managed_prom::bootstrap
+    bolt plan run -i inventory-foo.yaml osp_managed_prom::bootstrap
     ```
 3. Run Puppet on the `prometheus` node. This will complete the agent SSL bootstrap
    and install Prometheus based on the contents of the control repo.
     ```
-    /opt/puppetlabs/bin/puppet agent --test --server osp
+    /opt/puppetlabs/bin/puppet agent --test --certname prometheus --server osp
     ```
 4. Run Puppet on the `osp` node. This will ensure the Puppet Server
    configuration has converged to the desired state expressed in the control

@@ -1,0 +1,27 @@
+---
+config:
+  ssh:
+    host-key-check: false
+    interpreters:
+      rb: ['/opt/puppetlabs/puppet/bin/ruby', '-r', 'puppet']
+
+# Assume Puppet is installed to above `rb` path so Bolt
+# won't install it during apply_prep
+features:
+  - puppet-agent
+
+targets:
+  - name: osp
+    config:
+      transport: ssh
+      ssh:
+        host: 10.250.39.41
+        user: ubuntu
+        run-as: root
+  - name: prometheus
+    config:
+      transport: ssh
+      ssh:
+        host: 10.250.39.79
+        user: ubuntu
+        run-as: root
