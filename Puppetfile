@@ -1,4 +1,6 @@
+mod 'puppet-archive', '7.1.0'
 mod 'puppet-extlib', '7.0.0'
+mod 'puppet-prometheus', '15.0.0'
 mod 'puppet-r10k', '13.0.0'
 mod 'puppet-systemd', '7.0.0'
 mod 'puppetlabs-apt', '9.4.0'

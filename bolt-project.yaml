@@ -2,6 +2,7 @@
 name: osp_managed_prom
 
 modules:
+  - puppet-prometheus
   - puppet-r10k
   - puppetlabs-augeas_core
   - puppetlabs-cron_core
@@ -12,3 +13,4 @@ modules:
 
 plans:
   - osp_managed_prom::bootstrap
+  - osp_managed_prom::tear_down

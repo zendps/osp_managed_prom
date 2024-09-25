@@ -1,22 +1,29 @@
-plan osp_managed_prom::bootstrap {
-  $nodes = get_targets('all')
+# @summary Bootstrap Open Source Puppet infrastructure
+#
+# Use Forge modules to deploy Puppet Server, PuppeotDB, and r10k with a
+# control repo for a managed Prometheus service.
+#
+# @param osp Puppet Server node
+# @param prometheus Prometheus server node
+plan osp_managed_prom::bootstrap (
+  TargetSpec $osp        = 'osp',
+  TargetSpec $prometheus = 'prometheus',
+) {
+  $osp_target = get_targets($osp)[0]
 
-  apply_prep($nodes)
+  apply_prep([$osp_target, $prometheus])
 
-  apply($nodes) {
-    $nodes.each |$node| {
-      $node_facts = facts($node)
-      host { $node.name:
-        ip => $node_facts['networking']['ip'],
-      }
+  apply([$osp_target, $prometheus], '_description' => 'Create /etc/hosts entry for Puppet Server') {
+    host { $osp_target.name:
+      ip => facts($osp_target)['networking']['ip'],
     }
-  }
+  }.osp_managed_prom::print_report
 
-  $apply_results = apply('osp') {
+  apply($osp_target, '_description' => 'Manage Puppet Server') {
     class { 'puppet':
-      agent_server_hostname => 'osp',
+      agent_server_hostname => $osp_target.name,
       autosign              => true,
-      dns_alt_names         => ['osp'],
+      dns_alt_names         => [$osp_target.name],
       environment           => 'production',
       runmode               => 'none',
       server                => true,
@@ -29,7 +36,7 @@ plan osp_managed_prom::bootstrap {
     include puppetdb
 
     class { 'puppet::server::puppetdb':
-      server => $trusted['certname'],
+      server => $osp_target.name,
     }
 
     class { 'r10k':
@@ -41,13 +48,7 @@ plan osp_managed_prom::bootstrap {
         },
       },
     }
-  }
+  }.osp_managed_prom::print_report
 
-  $apply_results.each |$result| {
-    $result.report['logs'].each |$log| {
-      out::message("${result.target.name}: ${log['level'].capitalize}: ${log['source']}: ${log['message']}")
-    }
-  }
-
-  run_task('r10k::deploy', 'osp')
+  run_task('r10k::deploy', $osp_target)
 }

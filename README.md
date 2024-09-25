@@ -90,6 +90,12 @@ with the steps below.
 
 ## Usage
 
+### Bootstrapping OSP infrastructure
+
+This process will kick off self-managing Puppet Server and
+Agents with a control repo that maintains Prometheus and
+related components.
+
 1. Install Bolt modules:
     ```
     bolt module install
@@ -109,6 +115,14 @@ with the steps below.
     ```
     /opt/puppetlabs/bin/puppet agent --test
     ```
+
+### Rebuilding
+
+Sometimes you just need to start over and it can be difficult to reprovision
+the OS. The `osp_managed_prom::tear_down` plan intends to destroy managed
+infrastructure including the Prometheus service, Puppet Server, PuppetDB, and
+Puppet Agent. It is best-effort cleanup of services, packages, configuration
+files, and data directories.
 
 ## Cleanup
 
