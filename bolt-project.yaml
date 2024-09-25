@@ -6,6 +6,7 @@ modules:
   - puppetlabs-augeas_core
   - puppetlabs-cron_core
   - puppetlabs-host_core
+  - puppetlabs-puppet_agent
   - puppetlabs-puppetdb
   - theforeman-puppet
 
