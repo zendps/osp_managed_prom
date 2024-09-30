@@ -17,3 +17,7 @@
     - '/.resource_types'
     - '/.task_cache.json'
     - '/vagrant-ssh.conf'
+    - '/data/*'
+    - '!/data/defaults.yaml'
+    - '!/data/example-prometheus.yaml'
+    - '!/data/example-site.yaml'

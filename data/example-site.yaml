@@ -1,0 +1,6 @@
+---
+prometheus::remote_write_configs:
+  - url: 'https://example.com/endpoint'
+    basic_auth:
+      username: 'foo'
+      password: 'bar'

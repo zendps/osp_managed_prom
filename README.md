@@ -88,28 +88,70 @@ effectively pin these names as aliases so that the customer's hostnames are
 irrelevant and our code will work across different environments. Then continue
 with the steps below.
 
+#### Bolt
+
+Install Bolt modules:
+
+```
+bolt module install
+```
+
 ## Usage
 
-### Bootstrapping OSP infrastructure
+This module can be used to deploy the managed configuration directly with Bolt
+or with self-healing Puppet infrastructure.
+
+### Deploy with Bolt
+
+For ease of use, Bolt can connect directly to different targets for managing a
+Prometheus instance and metrics exporters.
+
+#### Prometheus
+
+Prometheus is managed by the
+[`puppet/prometheus`](https://forge.puppet.com/modules/puppet/prometheus/readme)
+module and applied by Bolt. It will pull its configuration from Hiera.
+
+1. Copy the example site configuration and modify the remote write config for
+   the appropriate, e.g., Grafana Cloud endpoint:
+   ```
+   cp data/example-site.yaml data/site.yaml
+   $EDITOR data/site.yaml
+   ```
+2. Copy the example node configuration and modify the scrape configs for the
+   deployed metrics exporters:
+   ```
+   cp data/example-prometheus.yaml data/prometheus.yaml
+   $EDITOR data/prometheus.yaml
+   ```
+   If you gave the node a different name in the Bolt inventory, use that name
+   for the yaml file.
+3. Apply the configuration:
+   ```
+   bolt plan run -i inventory-foo.yaml osp_managed_prom::prometheus::deploy
+   ```
+   add `-t NAME` if you used an inventory name other than `prometheus`.
+
+Update the Hiera configurations and redeploy as needed.
+
+#### Metrics Exporters
+
+### Bootstrap OSP infrastructure
 
 This process will kick off self-managing Puppet Server and
 Agents with a control repo that maintains Prometheus and
 related components.
 
-1. Install Bolt modules:
-    ```
-    bolt module install
-    ```
-2. Bootstrap the Puppet instance with the appropriate inventory config:
+1. Bootstrap the Puppet instance with the appropriate inventory config:
     ```
     bolt plan run -i inventory-foo.yaml osp_managed_prom::bootstrap
     ```
-3. Run Puppet on the `prometheus` node. This will complete the agent SSL bootstrap
+2. Run Puppet on the `prometheus` node. This will complete the agent SSL bootstrap
    and install Prometheus based on the contents of the control repo.
     ```
     /opt/puppetlabs/bin/puppet agent --test --certname prometheus --server osp
     ```
-4. Run Puppet on the `osp` node. This will ensure the Puppet Server
+3. Run Puppet on the `osp` node. This will ensure the Puppet Server
    configuration has converged to the desired state expressed in the control
    repo.
     ```

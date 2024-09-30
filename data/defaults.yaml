@@ -1,3 +1,10 @@
+---
+# Default Prometheus configuration
+# See: https://forge.puppet.com/modules/puppet/prometheus/readme
+prometheus::manage_prometheus_server: true
+prometheus::version: '2.52.0'
+
 # For compatibility with bolt apply
+# Applied in osp_managed_prom::bootstrap
 puppetdb::master::config::puppet_confdir: '/etc/puppetlabs/puppet'
 puppetdb::master::config::strict_validation: false
