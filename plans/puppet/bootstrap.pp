@@ -5,7 +5,7 @@
 #
 # @param osp Puppet Server node
 # @param prometheus Prometheus server node
-plan osp_managed_prom::bootstrap (
+plan osp_managed_prom::puppet::bootstrap (
   TargetSpec $osp        = 'osp',
   TargetSpec $prometheus = 'prometheus',
 ) {
